@@ -32,11 +32,3 @@ HelloController : traceparent: null                                             
 `RestTestClient` should behave like `TestRestTemplate`. Its requests should be observed, and the trace context
 should be sent in the `traceparent` header.
 
-## Likely cause
-
-- `TestRestTemplateTestAutoConfiguration` builds the `TestRestTemplate` from the context's `RestTemplateBuilder`.
-  That builder already has the observation customizer applied, so its requests are observed and the trace
-  context is sent.
-- `RestTestClientTestAutoConfiguration` only applies `SpringBootRestTestClientBuilderCustomizer`, which sets up
-  message converters. Nothing gives the client an `ObservationRegistry`, so there is no client observation and
-  no `traceparent` is added.
